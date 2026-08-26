@@ -26,3 +26,19 @@ lightbox.addEventListener('click',event=>{if(event.target===lightbox)lightbox.cl
 qsa('[data-checkout]').forEach(link=>link.addEventListener('click',event=>{
   if(link.getAttribute('href')==='#'){event.preventDefault();alert('El enlace de checkout se añadirá aquí cuando esté disponible.');}
 }));
+
+const dailyOfferCountdown=qs('#offer-countdown');
+if(dailyOfferCountdown){
+  const renderOfferCountdown=()=>{
+    const now=new Date();
+    const nextMidnight=new Date(now);
+    nextMidnight.setHours(24,0,0,0);
+    const remaining=Math.max(0,nextMidnight-now);
+    const hours=Math.floor(remaining/3600000);
+    const minutes=Math.floor((remaining%3600000)/60000);
+    const seconds=Math.floor((remaining%60000)/1000);
+    dailyOfferCountdown.textContent=[hours,minutes,seconds].map(value=>String(value).padStart(2,'0')).join(':');
+  };
+  renderOfferCountdown();
+  window.setInterval(renderOfferCountdown,1000);
+}
